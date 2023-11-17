@@ -23,11 +23,6 @@ namespace Bookshelf_FL.Extensions.Services
             _bookUserRepository = bookUserRepository;
             _bookRepository = bookRepository;
         }
-        
-        
-
-
-
 
         public void UpdateAverageBookScore(string bookId)
         {

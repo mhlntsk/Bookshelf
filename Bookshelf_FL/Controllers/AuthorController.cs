@@ -114,10 +114,10 @@ namespace Bookshelf_FL.Controllers
             var author = _authorRepository.FindById(authorSetUpViewModel.Id);
 
             author.FirstName = authorSetUpViewModel.FirstName != null ? authorSetUpViewModel.FirstName : author.FirstName;
-            author.MiddleName = authorSetUpViewModel.MiddleName != null ? authorSetUpViewModel.MiddleName : author.MiddleName;
+            author.MiddleName = authorSetUpViewModel.MiddleName;
             author.LastName = authorSetUpViewModel.LastName != null ? authorSetUpViewModel.LastName : author.LastName;
-            author.Country = authorSetUpViewModel.Country != null ? authorSetUpViewModel.Country : author.Country;
-            author.Description = authorSetUpViewModel.Description != null ? authorSetUpViewModel.Description : author.Description;
+            author.Country = authorSetUpViewModel.Country;
+            author.Description = authorSetUpViewModel.Description;
 
             if (authorSetUpViewModel.CoverImage != null && authorSetUpViewModel.CoverImage.Length > 0)
             {

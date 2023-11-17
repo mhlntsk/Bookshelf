@@ -14,10 +14,10 @@ namespace Bookshelf_SL
                 await roleManager.CreateAsync(new IdentityRole("admin"));
             }
 
-            if (await userManager.FindByEmailAsync(configuration["Email"]) == null)
+            if (await userManager.FindByEmailAsync(configuration["AdminDefaultEmail"]) == null)
             {
-                User admin = new User { Id = configuration["Id"], Email = configuration["Email"], UserName = configuration["Login"] };
-                IdentityResult result = await userManager.CreateAsync(admin, configuration["Pass"]);
+                User admin = new User { Id = configuration["AdminDefaultId"], Email = configuration["AdminDefaultEmail"], UserName = configuration["AdminDefaultLogin"] };
+                IdentityResult result = await userManager.CreateAsync(admin, configuration["AdminDefaultPass"]);
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(admin, "admin");

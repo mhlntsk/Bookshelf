@@ -123,10 +123,10 @@ namespace Bookshelf_FL.Controllers
             var book = _bookRepository.FindById(bookEditViewModel.Id);
 
             book.BookName = bookEditViewModel.BookName != null ? bookEditViewModel.BookName : book.BookName;
-            book.DateOfPublication = bookEditViewModel.DateOfPublication != null ? bookEditViewModel.DateOfPublication : book.DateOfPublication;
-            book.Series = bookEditViewModel.Series != null ? bookEditViewModel.Series : book.Series;
-            book.NumberInSeries = bookEditViewModel.NumberInSeries != null ? bookEditViewModel.NumberInSeries : book.NumberInSeries;
-            book.Description = bookEditViewModel.Description != null ? bookEditViewModel.Description : book.Description;
+            book.DateOfPublication = bookEditViewModel.DateOfPublication;
+            book.Series = bookEditViewModel.Series;
+            book.NumberInSeries = bookEditViewModel.NumberInSeries;
+            book.Description = bookEditViewModel.Description;
 
             if (bookEditViewModel.SelectedAuthors != null && bookEditViewModel.SelectedAuthors.Any())
             {

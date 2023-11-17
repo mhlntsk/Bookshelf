@@ -57,7 +57,7 @@ namespace Bookshelf_FL.Controllers
 
             return Redirect(returnUrl);
         }
-        public async Task<IActionResult> SetRating(string bookId, int rating)
+        public async Task<IActionResult> SetRating(string bookId, int rating, string StatusOfCurrentUser)
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
@@ -77,13 +77,22 @@ namespace Bookshelf_FL.Controllers
             if (rating >= 1 && rating <= 5)
             {
                 bookUser.IndividualBookScore = rating;
+
+                _bookUserRepository.Edit(bookUser);
             }
             else
             {
-                bookUser.IndividualBookScore = null;
-            }
+                if (StatusOfCurrentUser == null)
+                {
+                    _bookUserRepository.Delete(bookUser);
+                }
+                else
+                {
+                    bookUser.IndividualBookScore = null;
 
-            _bookUserRepository.Edit(bookUser);
+                    _bookUserRepository.Edit(bookUser);
+                }
+            }
 
             _bookService.UpdateAverageBookScore(bookId);
 

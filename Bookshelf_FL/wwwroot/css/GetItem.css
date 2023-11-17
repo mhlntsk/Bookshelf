@@ -13,6 +13,9 @@
     }
 
 .CoverOfItemsOfEntity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%; /* Займати усю ширину ItemsOfBookList */
     max-height: 80%; /* Максимальна висота для зображення */
     object-fit: cover; /* Заповнювати весь контейнер, обрізаючи контент, який не влізає */

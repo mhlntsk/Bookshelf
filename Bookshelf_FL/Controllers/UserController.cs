@@ -74,25 +74,28 @@ namespace Bookshelf_FL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserEditViewModel userSetUpViewModel)
         {
-            if (!Regex.IsMatch(userSetUpViewModel.PhoneNumber, @"^\+\d{1,3}\(\d{1,3}\)\d{3}-\d{2}-\d{2}$") && userSetUpViewModel.PhoneNumber != null)
+            if (userSetUpViewModel.PhoneNumber != null)
             {
-                ModelState.AddModelError("PhoneNumber", "Невірно введений номер телефону. Притримуйтесь формату: \"+код країни(номер оператору)000-00-00\"");
-                return View(userSetUpViewModel);
+                if (!Regex.IsMatch(userSetUpViewModel.PhoneNumber, @"^\+\d{1,3}\(\d{1,3}\)\d{3}-\d{2}-\d{2}$") && userSetUpViewModel.PhoneNumber != null)
+                {
+                    ModelState.AddModelError("PhoneNumber", "Невірно введений номер телефону. Притримуйтесь формату: \"+код країни(номер оператору)000-00-00\"");
+                    return View(userSetUpViewModel);
+                }
             }
-
+            
             var user = _userRepository.FindById(userSetUpViewModel.Id);
 
             if (user == null)
                 return NotFound();
 
             user.FirstName = userSetUpViewModel.FirstName != null ? userSetUpViewModel.FirstName : user.FirstName;
-            user.MiddleName = userSetUpViewModel.MiddleName != null ? userSetUpViewModel.MiddleName : user.MiddleName;
-            user.LastName = userSetUpViewModel.LastName != null ? userSetUpViewModel.LastName : user.LastName;
-            user.UserName = userSetUpViewModel.UserName != null ? userSetUpViewModel.UserName : user.UserName;
-            user.Email = userSetUpViewModel.Email != null ? userSetUpViewModel.Email : user.Email;
-            user.PhoneNumber = userSetUpViewModel.PhoneNumber != null ? userSetUpViewModel.PhoneNumber : user.PhoneNumber;
-            user.Description = userSetUpViewModel.Description != null ? userSetUpViewModel.Description : user.Description;
-            user.BirthDate = userSetUpViewModel.BirthDate != null ? userSetUpViewModel.BirthDate : user.BirthDate;
+            user.MiddleName = userSetUpViewModel.MiddleName;
+            user.LastName = userSetUpViewModel.LastName;
+            user.UserName = userSetUpViewModel.UserName;
+            user.Email = userSetUpViewModel.Email;
+            user.PhoneNumber = userSetUpViewModel.PhoneNumber;
+            user.Description = userSetUpViewModel.Description;
+            user.BirthDate = userSetUpViewModel.BirthDate;
 
 
             if (userSetUpViewModel.CoverImage != null && userSetUpViewModel.CoverImage.Length > 0)
