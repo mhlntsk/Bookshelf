@@ -1,0 +1,37 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: "Verdana", "Georgia";
+    font-size: 13px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#Container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.item {
+    background-color: #3e4b56;
+    height: 50px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.styled-link {
+    color: #e2e9ef;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+    .styled-link:hover {
+        color: #b3d1da;
+    }

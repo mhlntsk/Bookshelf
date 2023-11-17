@@ -1,0 +1,82 @@
+﻿@inject SignInManager<User> SignInManager
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Мета-теги, стилі та інші ресурси -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/_Layout.css" />
+    <link rel="stylesheet" href="/css/GetItem.css" />
+    <link rel="stylesheet" href="/css/MainGrid.css" />
+
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    <header>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div id="Container">
+
+
+                <a href="/" class="item">
+                    <div class="styled-link">
+                        Додому
+                    </div>
+                </a>
+
+                <a asp-controller="Book" asp-action="GetBooks" class="item">
+                    <div class ="styled-link">
+                        Книги
+                    </div>
+                </a>
+
+                <a asp-controller="Author" asp-action="GetAuthors" class="item">
+                    <div class="styled-link">
+                        Автори
+                    </div>
+                </a>
+
+                <a asp-controller="User" asp-action="GetUsers" class="item">
+                    <div class="styled-link">
+                        Користувачі
+                    </div>
+                </a>
+
+                @if (User.IsInRole("admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Index" class="item">
+                        <div class="styled-link">
+                            Адмінпанель
+                        </div>
+                    </a>
+                }
+
+                <a asp-controller="Account" asp-action="Logout" class="item">
+                    <div class="styled-link">
+                        Log out
+                    </div>
+                </a>
+
+
+            </div>
+        }
+
+        @RenderSection("Header", false)
+    </header>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+        @RenderSection("Footer", false)
+    </footer>
+
+    <script>
+        @RenderSection("Script", false)
+    </script>
+
+</body>
+</html>

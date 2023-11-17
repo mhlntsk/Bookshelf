@@ -1,0 +1,85 @@
+﻿@model Bookshelf_FL.Models.BookViewModels.BookViewModel
+@inject SignInManager<User> SignInManager
+
+@{
+    ViewBag.Title = @$"{Model.BookName}";
+}
+
+<div id="ContainerOfBody">
+
+    <div id="left_columnOfBody" style="flex: 0.6;">
+
+        <div class="ContainerOfEntity">
+
+            <div class="CoverOfItemsOfEntity">
+                @if (!string.IsNullOrEmpty(Model.CoverPath))
+                {
+                    <img id="CoverOfEntity" src="@Url.Content(Model.CoverPath)" alt="@Model.BookName" />
+                }
+            </div>
+
+            <div Class="ItemsOfEntity">
+                @await Html.PartialAsync("_StatusOfCurrentUserSelectorPartial", Model)
+            </div>
+
+            @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+            {
+                <div Class="ItemsOfEntity">
+                    <form asp-action="Edit" asp-route-id="@Model.Id" method="get" class="Selector">
+                        <button type="submit">Редагувати</button>
+                    </form>
+
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="Selector">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <button type="submit">Видалити</button>
+                    </form>
+                </div>
+            }
+
+            <form asp-controller="BookUser" asp-action="SetRating" Class="ItemsOfEntity">
+                <a>Оцінка:</a>
+
+                <input type="hidden" name="bookId" value="@Model.Id" />
+
+                <select name="rating" id="ratingSelect">
+                    <option value="0">Не оцінювати</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+                <button type="submit">Зберегти</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    <div id="right_columnOfBody" style="flex: 1.4; padding-top: 4%; padding-right: 9%;">
+
+        <h2>@Model.BookName</h2>
+        <p>Рейтинг: @Model.AverageBookScore</p>
+        <p>Дата публікації: @Model.DateOfPublication</p>
+        @if (Model.Series != null)
+        {
+            <p>Серія: @Model.Series (Порядковий номер: "@Model.NumberInSeries")</p>
+        }
+        <p>@Model.Description</p>
+        <div>
+            <h2>Автори:</h2>
+            <ul>
+                @foreach (var author in Model.Authors)
+                {
+                    <div>
+                        <a href="@Url.Action("GetAuthor", "Author", new { authorId = author.Id })" style="color: gray;">@author.AuthorFirstName @author.AuthorLastName</a>
+                    </div>
+                }
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>

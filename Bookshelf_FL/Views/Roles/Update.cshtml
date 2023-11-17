@@ -1,0 +1,19 @@
+﻿@model Bookshelf_FL.Models.RoleViewModels.ChangeRoleViewModel
+
+<a asp-controller="Home" asp-action="Index">На головну</a>
+
+<h2>Зміна ролей для користувача @Model.Email</h2>
+
+<form asp-action="Update" method="post">
+    <input type="hidden" name="userId" value="@Model.Id" />
+    <div class="form-group">
+        @foreach (IdentityRole role in Model.AllRoles.OrderBy(u => u.Name))
+        {
+            <input type="checkbox" name="roles" value="@role.Name"
+            @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
+
+            @role.Name <br />
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Зберегти</button>
+</form>

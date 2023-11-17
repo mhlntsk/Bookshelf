@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Bookshelf_TL.Models.User>
+
+<a asp-controller="Home" asp-action="Index">На головну</a>
+
+<h2>Список користувачів</h2>
+<table class="table">
+
+    @foreach (var user in Model.OrderBy(u => u.Email))
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-userid="@user.Id">Права доступу</a>
+            </td>
+        </tr>
+    }
+</table>

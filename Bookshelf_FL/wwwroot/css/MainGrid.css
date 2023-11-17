@@ -1,0 +1,82 @@
+﻿#ContainerOfBody {
+    display: flex;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+#right_columnOfBody {
+    flex: 1.5;
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+#left_columnOfBody {
+    flex: 0.4;
+    flex-direction: column;
+    height: 100%;
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+
+.ContainerOfBookList {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    overflow: hidden;
+    padding-top: 2%
+}
+
+.ItemsOfBookList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Розподілити простір між елементами від початку */
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* Обрізати контент, який не влізає */
+    margin-bottom: 20px;
+}
+
+    .ItemsOfBookList:hover {
+        transform: scale(1.06);
+    }
+
+.CoverOfItemsOfBookList {
+    width: 100%; /* Займати усю ширину ItemsOfBookList */
+    height: 83%; /* Максимальна висота для зображення */
+    object-fit: cover; /* Заповнювати весь контейнер, обрізаючи контент, який не влізає */
+    object-position: center; /* Вирівнювати зображення по центру */
+
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .CoverOfItemsOfBookList img {
+        max-height: 100%; /* Максимальна висота для зображення */
+        max-width: 100%; /* Максимальна ширина для зображення */
+    }
+
+.linkOfOfItemsOfBookList {
+    flex: 1; /* Займати доступний простір внизу ItemsOfBookList */
+    display: flex;
+    justify-content: center; /* Вирівнювати по центру горизонтально */
+    align-items: center; /* Вирівнювати по центру вертикально */
+    color: gray;
+    text-decoration: none;
+}
+
+
+
+
+/* Окрема сутність (Юзер, книга, автор) */
+#UserName {
+    margin-left: 8%;
+}
+
+#CoverOfEntity {
+    max-width: 270px;
+    height: auto;
+    margin-top: 10%;
+}

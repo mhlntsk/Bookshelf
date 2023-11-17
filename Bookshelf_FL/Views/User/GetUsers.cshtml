@@ -1,0 +1,14 @@
+﻿@model IEnumerable<Bookshelf_FL.Models.UserViewModels.UserListViewModel>
+
+<table class="table">
+    <tr><th>Користувачі</th><th></th></tr>
+    @foreach (var user in Model.OrderBy(u => u.UserName))
+    {
+        <tr>
+            <td>
+                <a>@user.UserName: </a>
+                <a href="@Url.Action("GetUser", "User", new { userId = @user.Id })">@user.FirstName @user.LastName</a>
+            </td>
+        </tr>
+    }
+</table>

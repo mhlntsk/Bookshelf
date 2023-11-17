@@ -1,0 +1,43 @@
+﻿
+.ContainerOfEntity {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Розподілити простір між елементами від початку */
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* Обрізати контент, який не влізає */
+}
+
+    .ContainerOfEntity: hover {
+        transform: scale(0.7);
+    }
+
+.CoverOfItemsOfEntity {
+    width: 100%; /* Займати усю ширину ItemsOfBookList */
+    max-height: 80%; /* Максимальна висота для зображення */
+    object-fit: cover; /* Заповнювати весь контейнер, обрізаючи контент, який не влізає */
+    object-position: center; /* Вирівнювати зображення по центру */
+}
+
+    .CoverOfItemsOfEntity img {
+        max-height: 100%; /* Максимальна висота для зображення */
+        max-width: 100%; /* Максимальна ширина для зображення */
+        width: auto; /* Автоматична ширина */
+        height: auto; /* Автоматична висота */
+    }
+
+.ItemsOfEntity {
+    flex: 1; /* Займати доступний простір внизу ItemsOfBookList */
+    display: flex;
+    justify-content: center; /* Вирівнювати по центру горизонтально */
+    align-items: center; /* Вирівнювати по центру вертикально */
+    color: gray;
+    text-decoration: none;
+    padding: 3%;
+}
+
+.Selector {
+    padding-right:4px;
+    padding-left: 4px;
+}
+

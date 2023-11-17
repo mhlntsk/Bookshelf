@@ -1,0 +1,75 @@
+﻿@model Bookshelf_FL.Models.UserViewModels.UserViewModel
+@inject UserManager<User> UserManager
+
+<div id="ContainerOfBody">
+
+    <div id="left_columnOfBody">
+        @{
+            var user = await UserManager.GetUserAsync(User);
+            if (user != null)
+            {
+                @if (Model.Id == user.Id)
+                {
+                    <div>
+                        <h2 id="UserName">@Model.LastName @Model.FirstName @Model.MiddleName</h2>
+                    </div>
+                    <a href="@Url.Action("Edit", "User", new { userId = @user.Id })">Редагувати профіль</a>
+                }
+                else
+                {
+                    <h2>Профіль користувача @Model.LastName @Model.FirstName @Model.MiddleName</h2>
+                }
+            }
+        }
+
+        <div class="CoverOfItemsOfEntity">
+            @if (!string.IsNullOrEmpty(Model.CoverPath))
+            {
+                <img id="CoverOfEntity" src="@Url.Content(Model.CoverPath)" alt="@Model.UserName" />
+            }
+        </div>
+
+        <p>Логін: @Model.UserName</p>
+        <p>Email: @Model.Email</p>
+        <p>Номер телефону: @Model.PhoneNumber</p>
+        @if (Model.BirthDate.HasValue)
+        {
+            <p>Дата народження: @Model.BirthDate.Value.ToShortDateString()</p>
+        }
+        else
+        {
+            <p>Дата народження: Немає інформації</p>
+        }
+        <p>@Model.Description</p>
+    </div>
+
+    <div id="right_columnOfBody">
+        @if (Model.Id == user.Id)
+        {
+            <h2>Мої списки</h2>
+        }
+        else
+        {
+            <h2>Списки користувача</h2>
+        }
+
+        <div>
+            <h3>Прочитано</h3>
+            <div class="ContainerOfBookList">
+                @await Html.PartialAsync("_ListOfBooksPartial", Model.ReadBooks)
+            </div>
+
+            <h3>Читаю</h3>
+            <div class="ContainerOfBookList">
+                @await Html.PartialAsync("_ListOfBooksPartial", Model.CurrentlyReadingBooks)
+            </div>
+
+            <h3>Хочу прочитати</h3>
+            <div class="ContainerOfBookList">
+                @await Html.PartialAsync("_ListOfBooksPartial", Model.WantToReadBooks)
+            </div>
+
+        </div>
+    </div>
+
+</div>

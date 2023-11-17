@@ -1,5 +1,7 @@
 /uploads/
 [Mm]igrations/
+[Uu]ploads/
+[Dd]efaultFiles/
 
 # User-specific files
 *.suo

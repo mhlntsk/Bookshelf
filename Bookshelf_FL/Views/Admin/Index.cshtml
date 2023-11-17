@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Bookshelf_TL.Models.User>
+
+@{
+    ViewBag.Title = "Список користувачів";
+}
+
+<div id="Container">
+    <a asp-action="Create" class="item" style="background-color: #576470;">
+        <div class="styled-link">
+            Додати користувача
+        </div>
+    </a>
+
+    <a asp-controller="Roles" asp-action="Index" class="item" style="background-color: #576470;">
+        <div class="styled-link">
+            Ролі
+        </div>
+    </a>
+</div>
+
+
+<table class="table">
+    <tr><th>Email</th><th></th></tr>
+    @foreach (var user in Model.OrderBy(u => u.Email))
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+
+                    <a asp-action="Edit" asp-route-id="@user.Id">Редагувати</a>
+
+                    <a asp-action="ChangePassword" asp-route-id="@user.Id">Змінити пароль</a>
+
+                    <button type="submit">Видалити</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

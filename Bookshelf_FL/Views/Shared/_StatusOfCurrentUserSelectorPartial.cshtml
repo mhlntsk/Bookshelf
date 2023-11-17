@@ -1,0 +1,25 @@
+﻿@model Bookshelf_FL.Models.BookViewModels.BookViewModel
+
+@switch (Model.StatusOfCurrentUser)
+{
+    case "Прочитано":
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Прочитано" style="color: green;">Прочитано</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Читаю" style="color: gray;">Читаю</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Хочу прочитати" style="color: gray;">Хочу прочитати</a>
+        break;
+    case "Читаю":
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Прочитано" style="color: gray;">Прочитано</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Читаю" style="color: green;">Читаю</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Хочу прочитати" style="color: gray;">Хочу прочитати</a>
+        break;
+    case "Хочу прочитати":
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Прочитано" style="color: gray;">Прочитано</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Читаю" style="color: gray;">Читаю</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Хочу прочитати" style="color: green;">Хочу прочитати</a>
+        break;
+    default:
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Прочитано" style="color: gray;">Прочитано</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Читаю" style="color: gray;">Читаю</a>
+        <a asp-action="SetStatus" asp-controller="BookUser" asp-route-bookId="@Model.Id" asp-method="post" class="Selector" asp-route-status="Хочу прочитати" style="color: gray;">Хочу прочитати</a>
+        break;
+}

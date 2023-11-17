@@ -1,0 +1,25 @@
+﻿@inject SignInManager<User> SignInManager
+@model IEnumerable<Bookshelf_FL.Models.BookViewModels.BookListViewModel>
+
+@foreach (var book in Model.OrderByDescending(b => b.Series).ThenBy(b => b.NumberInSeries))
+{
+    <div class="ItemsOfBookList">
+
+        <div class="CoverOfItemsOfBookList">
+
+            @if (!string.IsNullOrEmpty(book.CoverPath))
+            {
+                <img src="@Url.Content(book.CoverPath)" alt="@book.BookName" />
+            }
+            else
+            {
+                <img src="~/defaultFiles/DefaultBook.jpg" alt="@book.BookName" />
+            }
+
+        </div>
+
+        <a href="@Url.Action("GetBook", "Book", new { bookId = @book.Id })" Class="linkOfOfItemsOfBookList">@book.BookName</a>
+
+    </div>
+}
+

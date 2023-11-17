@@ -1,0 +1,53 @@
+﻿@model Bookshelf_FL.Models.AuthorViewModels.AuthorViewModel
+@inject SignInManager<User> SignInManager
+
+@{
+    ViewBag.Title = @$"{Model.FirstName} {Model.LastName}";
+}
+
+<div id="ContainerOfBody">
+
+    <div id="left_columnOfBody">
+
+        <div class="CoverOfItemsOfEntity">
+            @if (!string.IsNullOrEmpty(Model.CoverPath))
+            {
+                <img id="CoverOfEntity" src="@Url.Content(Model.CoverPath)" alt="@Model.FirstName @Model.MiddleName @Model.LastName" />
+            }
+        </div>
+
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("admin"))
+        {
+            <div Class="ItemsOfEntity">
+                <form asp-action="Edit" asp-route-id="@Model.Id" method="get" class="Selector">
+                    <button type="submit">Редагувати</button>
+                </form>
+
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="Selector">
+                    <input type="hidden" name="authorId" value="@Model.Id" />
+                    <button type="submit">Видалити</button>
+                </form>
+            </div>
+        }
+
+    </div>
+
+    <div id="right_columnOfBody">
+
+        <h2>@Model.FirstName @Model.MiddleName @Model.LastName</h2>
+        <p>Країна: @Model.Country</p>
+        <p>@Model.Description</p>
+        
+        <div>
+
+            <h2>Книги автора</h2>
+
+            <div class="ContainerOfBookList">
+                @await Html.PartialAsync("_ListOfBooksPartial", Model.SelectedBooks)
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
