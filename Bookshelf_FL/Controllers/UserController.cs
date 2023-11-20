@@ -38,6 +38,28 @@ namespace Bookshelf_FL.Controllers
 
             return View(userListViewModels);
         }
+        public IActionResult SearchUser(string SearchQuery)
+        {
+            IEnumerable<User> filteredUsers;
+
+            if (SearchQuery == null)
+            {
+                filteredUsers = _userRepository.All;
+            }
+            else
+            {
+                filteredUsers = _userRepository.All
+                .Where(user =>
+                    (user.FirstName != null && user.FirstName.Contains(SearchQuery))
+                    || (user.MiddleName != null && user.MiddleName.Contains(SearchQuery))
+                    || (user.LastName != null && user.LastName.Contains(SearchQuery))
+                    || (user.UserName != null && user.UserName.Contains(SearchQuery)));
+            }
+
+            var userListViewModels = _factoryOfUserService.UserListViewModels(filteredUsers);
+
+            return View(userListViewModels);
+        }
         public IActionResult GetUser(string userId)
         {
             var user = _userRepository.FindById(userId);

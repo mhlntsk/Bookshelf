@@ -1,5 +1,4 @@
-﻿@inject SignInManager<User> SignInManager
-@model IEnumerable<Bookshelf_FL.Models.AuthorViewModels.AuthorListViewModel>
+﻿@model IEnumerable<Bookshelf_FL.Models.AuthorViewModels.AuthorListViewModel>
 
 @foreach (var author in Model.OrderBy(b => b.FirstName))
 {

@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<Bookshelf_FL.Models.AuthorViewModels.AuthorListViewModel>
 @{
-    ViewBag.Title = "Автори";
+    ViewBag.Title = "Результати пошуку";
 }
 
 <div id="ContainerOfBody">
 
     <div id="left_columnOfBody">
 
-        <h2>Усі автори</h2>
-
-        <a asp-action="Create">Додати автора</a>
+        <h2>Результати пошуку</h2>
 
         <form id="search-form" asp-controller="Author" asp-action="SearchAuthor" method="post">
             <input type="text" name="SearchQuery" placeholder="Пошук автора...">
@@ -30,11 +28,3 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
-

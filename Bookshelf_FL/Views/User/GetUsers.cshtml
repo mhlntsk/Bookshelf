@@ -1,14 +1,26 @@
 ﻿@model IEnumerable<Bookshelf_FL.Models.UserViewModels.UserListViewModel>
 
-<table class="table">
-    <tr><th>Користувачі</th><th></th></tr>
-    @foreach (var user in Model.OrderBy(u => u.UserName))
-    {
-        <tr>
-            <td>
-                <a>@user.UserName: </a>
-                <a href="@Url.Action("GetUser", "User", new { userId = @user.Id })">@user.FirstName @user.LastName</a>
-            </td>
-        </tr>
-    }
-</table>
+<div id="ContainerOfBody">
+
+    <div id="left_columnOfBody">
+
+        <h2>Усі користувачі</h2>
+
+        <form id="search-form" asp-controller="User" asp-action="SearchUser" method="post">
+            <input type="text" id="book-search" name="SearchQuery" placeholder="Пошук користувача...">
+            <button type="submit" id="search-button">Пошук</button>
+        </form>
+
+    </div>
+
+    <div id="right_columnOfBody" style="padding-top: 4%">
+
+        <div class="ContainerOfBookList">
+
+            @await Html.PartialAsync("_ListOfUsersPartial", Model)
+
+        </div>
+
+    </div>
+
+</div>

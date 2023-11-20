@@ -40,11 +40,20 @@ namespace Bookshelf_FL.Controllers
         }
         public IActionResult SearchAuthor(string SearchQuery) 
         {
-            var filteredAuthors = _authorRepository.All
-                .Where(author => author.FirstName.Contains(SearchQuery)
-                              || author.MiddleName.Contains(SearchQuery)
-                              || author.LastName.Contains(SearchQuery));
+            IEnumerable<Author> filteredAuthors;
 
+            if (SearchQuery == null)
+            {
+                filteredAuthors = _authorRepository.All;
+            }
+            else
+            {
+                filteredAuthors = _authorRepository.All
+                .Where(author =>
+                    (author.FirstName != null && author.FirstName.Contains(SearchQuery))
+                    || (author.MiddleName != null && author.MiddleName.Contains(SearchQuery))
+                    || (author.LastName != null && author.LastName.Contains(SearchQuery)));
+            }
 
             var authorListViewModels = _factoryOfAuthorService.AuthorListViewModel(filteredAuthors);
 

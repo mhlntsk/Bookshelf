@@ -1,5 +1,4 @@
-﻿@inject SignInManager<User> SignInManager
-@model IEnumerable<Bookshelf_FL.Models.BookViewModels.BookListViewModel>
+﻿@model IEnumerable<Bookshelf_FL.Models.BookViewModels.BookListViewModel>
 
 @foreach (var book in Model.OrderByDescending(b => b.Series).ThenBy(b => b.NumberInSeries))
 {

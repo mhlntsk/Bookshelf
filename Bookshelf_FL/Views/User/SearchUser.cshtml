@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bookshelf_FL.Models.BookViewModels.BookListViewModel>
+﻿@model IEnumerable<Bookshelf_FL.Models.UserViewModels.UserListViewModel>
 @{
     ViewBag.Title = "Результати пошуку";
 }
@@ -9,8 +9,8 @@
 
         <h2>Результати пошуку</h2>
 
-        <form id="search-form" asp-controller="Book" asp-action="Search" method="post">
-            <input type="text" id="book-search" name="SearchQuery" placeholder="Пошук книги...">
+        <form id="search-form" asp-controller="User" asp-action="SearchUser" method="post">
+            <input type="text" name="SearchQuery" placeholder="Пошук користувача...">
             <button type="submit" id="search-button">Пошук</button>
         </form>
 
@@ -20,7 +20,7 @@
 
         <div class="ContainerOfBookList">
 
-                @await Html.PartialAsync("_ListOfBooksPartial", Model)
+            @await Html.PartialAsync("_ListOfUsersPartial", Model)
 
         </div>
 

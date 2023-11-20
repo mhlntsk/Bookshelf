@@ -44,7 +44,16 @@ namespace Bookshelf_FL.Controllers
         }
         public async Task<IActionResult> SearchBook(string SearchQuery) 
         {
-            var filteredBooks = _bookRepository.All.Where(book => book.BookName.Contains(SearchQuery));
+            IEnumerable<Book> filteredBooks;
+
+            if (SearchQuery == null)
+            {
+                filteredBooks = _bookRepository.All;
+            }
+            else
+            {
+                filteredBooks = _bookRepository.All.Where(book => (book.BookName != null && book.BookName.Contains(SearchQuery)));
+            }
 
             var currentUser = await _userManager.GetUserAsync(User);
 
