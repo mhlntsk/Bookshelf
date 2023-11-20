@@ -8,6 +8,7 @@ using Bookshelf_TL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Bookshelf_FL.Extensions
 {
@@ -34,7 +35,8 @@ namespace Bookshelf_FL.Extensions
                 opts.SignIn.RequireConfirmedAccount = false;
                 opts.User.RequireUniqueEmail = true;
             })
-                .AddEntityFrameworkStores<BookshelfDbContext>();
+                .AddEntityFrameworkStores<BookshelfDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace Bookshelf_FL.Extensions
             services.AddScoped<FactoryOfBookService, FactoryOfBookService>();
             services.AddScoped<FactoryOfAuthorService, FactoryOfAuthorService>();
             services.AddScoped<FactoryOfUserService, FactoryOfUserService>();
-
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
 
