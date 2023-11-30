@@ -8,6 +8,9 @@ using Bookshelf_FL.Extensions.Services;
 using Bookshelf_SL.Repositories;
 using Bookshelf_SL.Repositories.IntermediateModelsRepositories;
 using Bookshelf_TL.Models.IntermediateModels;
+using FluentValidation;
+using FluentValidation.Results;
+using Bookshelf_FL.Extensions.Validators;
 
 namespace Bookshelf_FL.Controllers
 {
@@ -24,24 +27,33 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateUserViewModel model)
+        public async Task<IActionResult> Create(CreateUserViewModel model,
+            [FromServices] IValidator<CreateUserViewModel> validator)
         {
-            if (ModelState.IsValid)
+            ValidationResult result = await validator.ValidateAsync(model);
+
+            if (!result.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Login};
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                result.AddToModelState(this.ModelState);
+
+                return View(model);
+            }
+
+            User user = new User { Email = model.Email, UserName = model.Login };
+
+            var resultOfCreation = await _userManager.CreateAsync(user, model.Password);
+            if (resultOfCreation.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var error in resultOfCreation.Errors)
                 {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
             return View(model);
         }
         public async Task<IActionResult> Edit(string id)
@@ -53,36 +65,44 @@ namespace Bookshelf_FL.Controllers
                 return NotFound();
             }
 
-            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Login = user.UserName};
+            EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Login = user.UserName };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditUserViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model,
+            [FromServices] IValidator<EditUserViewModel> validator)
         {
-            if (ModelState.IsValid)
-            {
-                User user = await _userManager.FindByIdAsync(model.Id);
-                if (user != null)
-                {
-                    user.Email = model.Email;
-                    user.UserName = model.Login;
+            ValidationResult result = await validator.ValidateAsync(model);
 
-                    var result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View(model);
+            }
+
+            User user = await _userManager.FindByIdAsync(model.Id);
+            if (user != null)
+            {
+                user.Email = model.Email;
+                user.UserName = model.Login;
+
+                var resultOfUpdate = await _userManager.UpdateAsync(user);
+                if (resultOfUpdate.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in resultOfUpdate.Errors)
                     {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
             }
+
             return View(model);
         }
         public async Task<IActionResult> ChangePassword(string id)
@@ -98,39 +118,32 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model, [FromServices] IValidator<ChangePasswordViewModel> validator)
         {
-            if (ModelState.IsValid)
-            {
-                User user = await _userManager.FindByIdAsync(model.Id);
-                if (user != null)
-                {
-                    var _passwordValidator =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordValidator<User>)) as IPasswordValidator<User>;
-                    var _passwordHasher =
-                        HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+            ValidationResult result = await validator.ValidateAsync(model);
 
-                    IdentityResult result =
-                        await _passwordValidator.ValidateAsync(_userManager, user, model.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
-                        await _userManager.UpdateAsync(user);
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        foreach (var error in result.Errors)
-                        {
-                            ModelState.AddModelError(string.Empty, error.Description);
-                        }
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Користувача не знайдено");
-                }
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View(model);
             }
+
+            User user = await _userManager.FindByIdAsync(model.Id);
+            if (user != null)
+            {
+                var _passwordHasher =
+                    HttpContext.RequestServices.GetService(typeof(IPasswordHasher<User>)) as IPasswordHasher<User>;
+
+                user.PasswordHash = _passwordHasher.HashPassword(user, model.NewPassword);
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Користувача не знайдено");
+            }
+
             return View(model);
         }
 
@@ -148,7 +161,7 @@ namespace Bookshelf_FL.Controllers
 
             if (user == null)
                 return NotFound();
-            
+
             coverImageService.DeleteCover(userRepository, user);
 
             bookUserRepository.DeleteCollection(bookUsers);

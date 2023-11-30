@@ -26,7 +26,7 @@ namespace Bookshelf_FL.Extensions.Services
         {
             var authorCreateViewModel = new AuthorCreateViewModel()
             {
-                Books = new List<BookLiteViewModel>(),
+                Books = new List<BookDtoViewModel>(),
                 SelectedBooks = new List<string>()
             };
 
@@ -42,7 +42,7 @@ namespace Bookshelf_FL.Extensions.Services
             {
                 foreach (var book in Books)
                 {
-                    var bookNameViewModel = new BookLiteViewModel()
+                    var bookNameViewModel = new BookDtoViewModel()
                     {
                         Id = book.Id,
                         BookName = book.BookName
@@ -65,7 +65,7 @@ namespace Bookshelf_FL.Extensions.Services
                 Country = author.Country,
                 Description = author.Description,
 
-                Books = new List<BookLiteViewModel>(),
+                Books = new List<BookDtoViewModel>(),
                 SelectedBooks = new List<string>()
             };
 
@@ -83,7 +83,7 @@ namespace Bookshelf_FL.Extensions.Services
             {
                 foreach (var book in Books)
                 {
-                    var bookNameViewModel = new BookLiteViewModel()
+                    var bookNameViewModel = new BookDtoViewModel()
                     {
                         Id = book.Id,
                         BookName = book.BookName

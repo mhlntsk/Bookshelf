@@ -1,9 +1,14 @@
 ﻿using Bookshelf_FL.Extensions.Services;
+using Bookshelf_FL.Extensions.Validators;
+using Bookshelf_FL.Extensions.Validators.Models;
+using Bookshelf_FL.Models.AccountViewModels;
 using Bookshelf_FL.Models.BookViewModels;
 using Bookshelf_SL.Repositories;
 using Bookshelf_SL.Repositories.IntermediateModelsRepositories;
 using Bookshelf_TL.Models;
 using Bookshelf_TL.Models.IntermediateModels;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -80,8 +85,17 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(BookCreateViewModel bookCreateViewModel)
+        public async Task<IActionResult> Create(BookCreateViewModel bookCreateViewModel, [FromServices] IValidator<BookCreateViewModel> validator)
         {
+            ValidationResult result = await validator.ValidateAsync(bookCreateViewModel);
+
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View("Create", bookCreateViewModel);
+            }
+
             Book book = new Book
             {
                 Id = Guid.NewGuid().ToString(),
@@ -127,8 +141,17 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(BookEditViewModel bookEditViewModel)
+        public async Task<IActionResult> Edit(BookEditViewModel bookEditViewModel, [FromServices] IValidator<BookEditViewModel> validator)
         {
+            ValidationResult result = await validator.ValidateAsync(bookEditViewModel);
+
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View("Edit", bookEditViewModel);
+            }
+
             var book = _bookRepository.FindById(bookEditViewModel.Id);
 
             book.BookName = bookEditViewModel.BookName != null ? bookEditViewModel.BookName : book.BookName;

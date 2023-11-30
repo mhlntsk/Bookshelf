@@ -1,10 +1,12 @@
 ﻿using Bookshelf_FL.Extensions.Services;
+using Bookshelf_FL.Extensions.Validators;
 using Bookshelf_FL.Models.UserViewModels;
 using Bookshelf_SL.Repositories;
-using Bookshelf_SL.Repositories.IntermediateModelsRepositories;
 using Bookshelf_TL.Models;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
+using System;
 
 namespace Bookshelf_FL.Controllers
 {
@@ -15,13 +17,15 @@ namespace Bookshelf_FL.Controllers
         private readonly CoverImageService _coverImageService;
         private readonly FactoryOfBookService _factoryOfBookService;
         private readonly FactoryOfUserService _factoryOfUserService;
+        private readonly IValidator<UserEditViewModel> _userEditViewModelValidator;
 
         public UserController(
             IRepository<User> usersRepository,
             IRepository<Book> bookRepository,
             CoverImageService coverImageService,
             FactoryOfBookService factoryOfBookService,
-            FactoryOfUserService factoryOfUserService
+            FactoryOfUserService factoryOfUserService,
+            IValidator<UserEditViewModel> userEditViewModelValidator
 )
         {
             _userRepository = usersRepository;
@@ -29,6 +33,7 @@ namespace Bookshelf_FL.Controllers
             _coverImageService = coverImageService;
             _factoryOfBookService = factoryOfBookService;
             _factoryOfUserService = factoryOfUserService;
+            _userEditViewModelValidator = userEditViewModelValidator;
         }
         public IActionResult GetUsers()
         {
@@ -96,15 +101,15 @@ namespace Bookshelf_FL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserEditViewModel userSetUpViewModel)
         {
-            if (userSetUpViewModel.PhoneNumber != null)
+            ValidationResult result = await _userEditViewModelValidator.ValidateAsync(userSetUpViewModel);
+
+            if (!result.IsValid)
             {
-                if (!Regex.IsMatch(userSetUpViewModel.PhoneNumber, @"^\+\d{1,3}\(\d{1,3}\)\d{3}-\d{2}-\d{2}$") && userSetUpViewModel.PhoneNumber != null)
-                {
-                    ModelState.AddModelError("PhoneNumber", "Невірно введений номер телефону. Притримуйтесь формату: \"+код країни(номер оператору)000-00-00\"");
-                    return View(userSetUpViewModel);
-                }
+                result.AddToModelState(this.ModelState);
+
+                return View("Edit", userSetUpViewModel);
             }
-            
+
             var user = _userRepository.FindById(userSetUpViewModel.Id);
 
             if (user == null)

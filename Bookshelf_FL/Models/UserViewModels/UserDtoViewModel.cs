@@ -1,6 +1,6 @@
 ﻿namespace Bookshelf_FL.Models.UserViewModels
 {
-    public class UserLiteViewModel
+    public class UserDtoViewModel
     {
         public string Id { get; set; }
         public string UserName { get; set;}

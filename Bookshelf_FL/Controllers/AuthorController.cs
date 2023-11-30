@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Bookshelf_TL.Models;
-using Bookshelf_SL.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using Bookshelf_FL.Models.BookViewModels;
+﻿using Bookshelf_FL.Extensions.Services;
+using Bookshelf_FL.Extensions.Validators;
 using Bookshelf_FL.Models.AuthorViewModels;
+using Bookshelf_FL.Models.BookViewModels;
+using Bookshelf_SL.Repositories;
 using Bookshelf_SL.Repositories.IntermediateModelsRepositories;
-using Bookshelf_FL.Extensions.Services;
+using Bookshelf_TL.Models;
 using Bookshelf_TL.Models.IntermediateModels;
+using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bookshelf_FL.Controllers
 {
@@ -76,8 +79,17 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AuthorCreateViewModel authorCreateViewModel)
+        public async Task<IActionResult> Create(AuthorCreateViewModel authorCreateViewModel, [FromServices] IValidator<AuthorCreateViewModel> validator)
         {
+            ValidationResult result = await validator.ValidateAsync(authorCreateViewModel);
+
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View("Create", authorCreateViewModel);
+            }
+
             Author author = new Author
             {
                 Id = Guid.NewGuid().ToString(),
@@ -118,8 +130,17 @@ namespace Bookshelf_FL.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(AuthorEditViewModel authorSetUpViewModel)
+        public async Task<IActionResult> Edit(AuthorEditViewModel authorSetUpViewModel, [FromServices] IValidator<AuthorEditViewModel> validator)
         {
+            ValidationResult result = await validator.ValidateAsync(authorSetUpViewModel);
+
+            if (!result.IsValid)
+            {
+                result.AddToModelState(this.ModelState);
+
+                return View("Edit", authorSetUpViewModel);
+            }
+
             var author = _authorRepository.FindById(authorSetUpViewModel.Id);
 
             author.FirstName = authorSetUpViewModel.FirstName != null ? authorSetUpViewModel.FirstName : author.FirstName;

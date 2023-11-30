@@ -1,10 +1,5 @@
-﻿using Bookshelf_FL.Extensions.Services;
-using Bookshelf_TL.Models;
-using System.Security.AccessControl;
+﻿using Bookshelf_FL.Models.BookViewModels;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using Bookshelf_FL.Models.BookViewModels;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Bookshelf_FL.Models.UserViewModels
 {

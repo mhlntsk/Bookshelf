@@ -7,8 +7,8 @@ using Bookshelf_TL.Models;
 using Bookshelf_TL.Models.IntermediateModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bookshelf_FL.Extensions
 {
@@ -61,7 +61,7 @@ namespace Bookshelf_FL.Extensions
         /// <summary>
         /// Configures dependencies
         /// </summary>
-        public static void ConfigureRepositories(this IServiceCollection services)
+        public static void ConfigureDependencies(this IServiceCollection services)
         {
             services.AddScoped<IRepository<Book>, BookRepository>();
             services.AddScoped<IRepository<Author>, AuthorRepository>();

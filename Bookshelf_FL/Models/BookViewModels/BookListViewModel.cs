@@ -17,7 +17,7 @@ namespace Bookshelf_FL.Models.BookViewModels
         public decimal? AverageBookScore { get; set; }
         public string CoverPath { get; set; }
         public string StatusOfUser { get; set; }
-        public ICollection<CategoryLiteViewModel> Categories { get; set; }
-        public ICollection<AuthorLiteViewModel> Authors { get; set; }
+        public ICollection<CategoryDtoViewModel> Categories { get; set; }
+        public ICollection<AuthorDtoViewModel> Authors { get; set; }
     }
 }

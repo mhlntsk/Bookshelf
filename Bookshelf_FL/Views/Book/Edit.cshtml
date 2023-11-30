@@ -61,28 +61,33 @@
     </div>
 
     <select asp-for="SelectedCategories" multiple style="width: 300px; height: 200px;">
-        @foreach (var category in Model.Categories)
+        @if (Model.Categories != null)
         {
-            <option value="@category.Id">@category.CategoryName</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.CategoryName</option>
+            }
         }
     </select>
 
     <select asp-for="SelectedAuthors" multiple style="width: 300px; height: 200px;">
-        @foreach (var author in Model.Authors)
+        @if (Model.Authors != null)
         {
-            <option value="@author.Id">@author.AuthorFirstName @author.AuthorLastName</option>
+            @foreach (var author in Model.Authors)
+            {
+                <option value="@author.Id">@author.AuthorFirstName @author.AuthorLastName</option>
+            }
         }
     </select>
 
     <div class="form-group">
-        <input type="submit" value="Зберегти"/>
+        <input type="submit" value="Зберегти" />
     </div>
 
 </form>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () 
-    {
+    document.addEventListener("DOMContentLoaded", function () {
         var authorsBefore = @Html.Raw(Json.Serialize(Model.SelectedAuthors));
         var authorsSelect = document.getElementById("authorsSelect");
 
@@ -96,8 +101,7 @@
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () 
-    {
+    document.addEventListener("DOMContentLoaded", function () {
         var categoriesBefore = @Html.Raw(Json.Serialize(Model.SelectedAuthors));
         var categoriesSelect = document.getElementById("categoriesSelect");
 

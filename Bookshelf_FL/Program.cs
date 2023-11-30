@@ -2,7 +2,8 @@ using Bookshelf_FL.Extensions;
 using Bookshelf_SL;
 using Bookshelf_TL.Models;
 using Microsoft.AspNetCore.Identity;
-
+using FluentValidation;
+using Bookshelf_FL.Extensions.Validators.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,12 @@ builder.Services.ConfigureEntityFrameworkCore(configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigurePolicy();
 builder.Services.AddControllersWithViews();
-builder.Services.ConfigureRepositories();
+builder.Services.AddValidatorsFromAssemblyContaining<UserEditViewModelValidator>();
+builder.Services.ConfigureDependencies();
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole(); 
+});
 
 var app = builder.Build();
 

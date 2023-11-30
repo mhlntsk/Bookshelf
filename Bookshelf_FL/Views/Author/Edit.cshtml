@@ -56,9 +56,12 @@
     </div>
 
     <select asp-for="SelectedBooks" multiple style="width: 300px; height: 200px;">
-        @foreach (var book in Model.Books)
+        @if (Model.Books != null)
         {
-            <option value="@book.Id">@book.BookName</option>
+            @foreach (var book in Model.Books)
+            {
+                <option value="@book.Id">@book.BookName</option>
+            }
         }
     </select>
 

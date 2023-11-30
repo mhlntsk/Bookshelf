@@ -37,8 +37,8 @@ namespace Bookshelf_FL.Extensions.Services
         {
             var bookCreateViewModel = new BookCreateViewModel()
             {
-                Categories = new List<CategoryLiteViewModel>(),
-                Authors = new List<AuthorLiteViewModel>(),
+                Categories = new List<CategoryDtoViewModel>(),
+                Authors = new List<AuthorDtoViewModel>(),
             };
 
             #region Fill authors of book
@@ -51,7 +51,7 @@ namespace Bookshelf_FL.Extensions.Services
             {
                 foreach (var author in allAuthors)
                 {
-                    var authorLiteViewModel = new AuthorLiteViewModel()
+                    var authorLiteViewModel = new AuthorDtoViewModel()
                     {
                         Id = author.Id,
                         AuthorFirstName = author.FirstName,
@@ -74,7 +74,7 @@ namespace Bookshelf_FL.Extensions.Services
             {
                 foreach (var category in allCategories)
                 {
-                    var categoryLiteViewModel = new CategoryLiteViewModel()
+                    var categoryLiteViewModel = new CategoryDtoViewModel()
                     {
                         Id = category.Id,
                         CategoryName = category.Name,
@@ -99,8 +99,8 @@ namespace Bookshelf_FL.Extensions.Services
                 NumberInSeries = book.NumberInSeries,
                 Description = book.Description,
 
-                Categories = new List<CategoryLiteViewModel>(),
-                Authors = new List<AuthorLiteViewModel>(),
+                Categories = new List<CategoryDtoViewModel>(),
+                Authors = new List<AuthorDtoViewModel>(),
                 SelectedCategories = new List<string>(),
                 SelectedAuthors = new List<string>()
             };
@@ -115,7 +115,7 @@ namespace Bookshelf_FL.Extensions.Services
 
             foreach (var author in authors)
             {
-                var authorNameViewModel = new AuthorLiteViewModel()
+                var authorNameViewModel = new AuthorDtoViewModel()
                 {
                     Id = author.Id,
                     AuthorFirstName = author.FirstName,
@@ -135,7 +135,7 @@ namespace Bookshelf_FL.Extensions.Services
 
             foreach (var category in categories)
             {
-                var categoryNameViewModel = new CategoryLiteViewModel()
+                var categoryNameViewModel = new CategoryDtoViewModel()
                 {
                     Id = category.Id,
                     CategoryName = category.Name,
@@ -193,8 +193,8 @@ namespace Bookshelf_FL.Extensions.Services
                     NumberInSeries = book.NumberInSeries,
                     AverageBookScore = book.AverageBookScore,
 
-                    Categories = new List<CategoryLiteViewModel>(),
-                    Authors = new List<AuthorLiteViewModel>(),
+                    Categories = new List<CategoryDtoViewModel>(),
+                    Authors = new List<AuthorDtoViewModel>(),
                 };
 
                 _coverImageService.FillCoverImageIntoViewModels(bookListOfUserViewModel, book);
@@ -219,7 +219,7 @@ namespace Bookshelf_FL.Extensions.Services
                 {
                     if (bookCategory.BookId == book.Id)
                     {
-                        var categoryNameViewModel = new CategoryLiteViewModel()
+                        var categoryNameViewModel = new CategoryDtoViewModel()
                         {
                             CategoryName = bookCategory.Category.Name,
                             Id = bookCategory.Category.Id
@@ -237,7 +237,7 @@ namespace Bookshelf_FL.Extensions.Services
                 {
                     if (bookAuthor.BookId == book.Id)
                     {
-                        var authorNameViewModel = new AuthorLiteViewModel()
+                        var authorNameViewModel = new AuthorDtoViewModel()
                         {
                             Id = bookAuthor.Author.Id,
                             AuthorFirstName = bookAuthor.Author.FirstName,
@@ -281,8 +281,8 @@ namespace Bookshelf_FL.Extensions.Services
                 Description = book.Description,
                 AverageBookScore = book.AverageBookScore,
 
-                Authors = new List<AuthorLiteViewModel>(),
-                Categories = new List<CategoryLiteViewModel>(),
+                Authors = new List<AuthorDtoViewModel>(),
+                Categories = new List<CategoryDtoViewModel>(),
             };
 
             _coverImageService.FillCoverImageIntoViewModels(bookViewModel, book);
@@ -301,7 +301,7 @@ namespace Bookshelf_FL.Extensions.Services
 
             foreach (var author in authors)
             {
-                var authorNameViewModel = new AuthorLiteViewModel()
+                var authorNameViewModel = new AuthorDtoViewModel()
                 {
                     Id = author.Id,
                     AuthorFirstName = author.FirstName,
@@ -317,7 +317,7 @@ namespace Bookshelf_FL.Extensions.Services
 
             foreach (var category in categories)
             {
-                var categoryNameViewModel = new CategoryLiteViewModel()
+                var categoryNameViewModel = new CategoryDtoViewModel()
                 {
                     Id = category.Id,
                     CategoryName = category.Name,

@@ -1,6 +1,6 @@
 ﻿namespace Bookshelf_FL.Models.AuthorViewModels
 {
-    public class AuthorLiteViewModel
+    public class AuthorDtoViewModel
     {
         public string Id { get; set; }
         public string AuthorFirstName { get; set; }
