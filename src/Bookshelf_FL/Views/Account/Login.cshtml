@@ -1,0 +1,29 @@
+﻿@model Bookshelf_FL.ViewModels.AccountViewModels.LoginViewModel
+<body>
+    <h2>Авторизація</h2>
+
+    <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
+        <div asp-validation-summary="All"></div>
+
+        <div>
+            <label asp-for="UsernameOrEmail">Логін або Email</label><br />
+            <input asp-for="UsernameOrEmail" />
+            <span asp-validation-for="UsernameOrEmail"></span>
+        </div>
+
+        <div>
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div>
+            <label asp-for="RememberMe"></label><br />
+            <input asp-for="RememberMe" />
+        </div>
+
+        <div>
+            <input type="submit" value="Увійти" />
+        </div>
+    </form>
+</body>

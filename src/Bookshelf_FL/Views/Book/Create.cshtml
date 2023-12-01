@@ -1,0 +1,85 @@
+﻿@model Bookshelf_FL.ViewModels.BookViewModels.BookCreateViewModel
+
+@{
+    ViewBag.Title = "Додавання книги";
+}
+
+<form asp-action="Create" asp-controller="Book" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="BookName" class="control-label">Назва книги</label>
+        <input type="text" asp-for="BookName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Series" class="control-label">Серія</label>
+        <input type="text" asp-for="Series" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumberInSeries" class="control-label">Номер книги в серії</label>
+        <input type="text" asp-for="NumberInSeries" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfPublication">Рік</label>
+        <input type="number" asp-for="DateOfPublication" min="1600" max="2099" step="1" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Опис</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CoverImage" class="control-label">Обкладинка</label>
+        <input asp-for="CoverImage" type="file" class="form-control" />
+    </div>
+
+    <select asp-for="SelectedCategories" multiple style="width: 300px; height: 200px;">
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.Id">@category.CategoryName</option>
+        }
+    </select>
+
+    <select asp-for="SelectedAuthors" multiple style="width: 300px; height: 200px;">
+        @foreach (var author in Model.Authors)
+        {
+            <option value="@author.Id">@author.AuthorFirstName @author.AuthorLastName</option>
+        }
+    </select>
+
+    <div class="form-group">
+        <input type="submit" value="Створити" class="btn btn-primary" />
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var authorsBefore = @Html.Raw(Json.Serialize(Model.SelectedAuthors));
+        var authorsSelect = document.getElementById("authorsSelect");
+
+        for (var i = 0; i < authorsSelect.options.length; i++) {
+            var option = authorsSelect.options[i];
+            if (authorsBefore.includes(parseInt(option.value))) {
+                option.selected = true;
+            }
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var categoriesBefore = @Html.Raw(Json.Serialize(Model.SelectedAuthors));
+        var categoriesSelect = document.getElementById("categoriesSelect");
+
+        for (var i = 0; i < categoriesSelect.options.length; i++) {
+            var option = categoriesSelect.options[i];
+            if (categoriesBefore.includes(parseInt(option.value))) {
+                option.selected = true;
+            }
+        }
+    });
+</script>

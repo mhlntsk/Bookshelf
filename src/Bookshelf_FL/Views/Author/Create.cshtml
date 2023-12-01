@@ -1,0 +1,99 @@
+﻿@model Bookshelf_FL.ViewModels.AuthorViewModels.AuthorCreateViewModel
+
+@{
+    ViewBag.Title = "Додавання автора";
+}
+
+<form asp-action="Create" asp-controller="Author" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <label asp-for="FirstName">Ім'я</label>
+        <input asp-for="FirstName" />
+    </div>
+
+    <div>
+        <label asp-for="MiddleName">По-батькові / друге ім'я'</label>
+        <input asp-for="MiddleName" />
+    </div>
+
+    <div>
+        <label asp-for="LastName">Прізвище</label>
+        <input asp-for="LastName" />
+    </div>
+
+    <label asp-for="Country">Країна:</label>
+    <select asp-for="Country" id="countrySelect">
+        <option value="">Оберіть країну</option>
+    </select>
+
+    <div>
+        <label asp-for="Description">Опис</label>
+        <textarea asp-for="Description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CoverImage" class="control-label">Обкладинка</label>
+        <input asp-for="CoverImage" type="file" class="form-control" />
+    </div>
+
+    <select asp-for="SelectedBooks" multiple style="width: 300px; height: 200px;">
+        @foreach (var book in Model.Books)
+        {
+            <option value="@book.Id">@book.BookName</option>
+        }
+    </select>
+
+    <div class="form-group">
+        <input type="submit" value="Створити" class="btn btn-primary" />
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("https://restcountries.com/v3.1/all")
+            .then(response => response.json())
+            .then(data => {
+                const countrySelect = document.getElementById("countrySelect");
+
+                data.sort((a, b) => {
+                    const countryNameA = a.name.common.toLowerCase();
+                    const countryNameB = b.name.common.toLowerCase();
+                    return countryNameA.localeCompare(countryNameB);
+                });
+
+                data.forEach(country => {
+                    const option = document.createElement("option");
+                    option.value = country.name.common;
+                    option.text = country.name.common;
+                    countrySelect.appendChild(option);
+                });
+
+                // Тепер, коли опції завантажені, можна встановити вибрану країну, якщо вона існує
+                const selectedCountry = "@Model.Country";
+                if (selectedCountry) {
+                    const option = countrySelect.querySelector(`[value="${selectedCountry}"]`);
+                    if (option) {
+                        option.selected = true;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error("Помилка при отриманні даних:", error);
+            });
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var booksBefore = @Html.Raw(Json.Serialize(Model.SelectedBooks));
+        var booksSelect = document.getElementById("booksSelect");
+
+        for (var i = 0; i < booksSelect.options.length; i++) {
+            var option = booksSelect.options[i];
+            if (booksBefore.includes(parseInt(option.value))) {
+                option.selected = true;
+            }
+        }
+    });
+</script>

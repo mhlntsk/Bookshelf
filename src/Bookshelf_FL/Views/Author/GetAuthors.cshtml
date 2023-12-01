@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Bookshelf_FL.ViewModels.AuthorViewModels.AuthorListViewModel>
+@{
+    ViewBag.Title = "Автори";
+}
+
+<div id="ContainerOfBody">
+
+    <div id="left_columnOfBody">
+
+        <h2>Усі автори</h2>
+
+        <a asp-action="Create">Додати автора</a>
+
+        <form id="search-form" asp-controller="Author" asp-action="SearchAuthor" method="post">
+            <input type="text" name="SearchQuery" placeholder="Пошук автора...">
+            <button type="submit" id="search-button">Пошук</button>
+        </form>
+
+
+    </div>
+
+    <div id="right_columnOfBody" style="padding-top: 4%">
+
+        <div class="ContainerOfBookList">
+
+            @await Html.PartialAsync("_ListOfAuthorsPartial", Model)
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+

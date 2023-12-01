@@ -1,0 +1,85 @@
+﻿@model Bookshelf_FL.ViewModels.UserViewModels.UserEditViewModel
+
+@{
+    ViewBag.Title = "Редагування профілю";
+}
+
+<h2>Редагування профілю</h2>
+
+@if (!string.IsNullOrEmpty(Model.CoverPath))
+{
+    <div class="form-group">
+        <img id="CoverOfEntity" style="margin-top: 0%" src="@Url.Content(Model.CoverPath)" alt="@Model.UserName" />
+    </div>
+
+    <form asp-controller="User" asp-action="DeleteImage" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit">Видалити зображення</button>
+    </form>
+}
+
+<form asp-action="Edit" asp-controller="User" enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+
+    <div>
+        <input type="hidden" asp-for="Id" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CoverImage">Фото</label>
+        <input asp-for="CoverImage" type="file" />
+    </div>
+
+    <div>
+        <label asp-for="FirstName">Ім'я</label>
+        <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+
+    <div>
+        <label asp-for="MiddleName">По-батькові / друге ім'я'</label>
+        <input asp-for="MiddleName" />
+        <span asp-validation-for="MiddleName"></span>
+    </div>
+
+    <div>
+        <label asp-for="LastName">Прізвище</label>
+        <input asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div>
+        <label asp-for="UserName">Логін</label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div>
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label asp-for="PhoneNumber">Телефон</label>
+        <input asp-for="PhoneNumber" type="tel" />
+        <span asp-validation-for="PhoneNumber"></span>
+    </div>
+
+    <div>
+        <label asp-for="BirthDate">Дата народження</label>
+        <input asp-for="BirthDate" type="date" step="1" />
+        <span asp-validation-for="BirthDate"></span>
+    </div>
+
+    <div>
+        <label asp-for="Description">Напишіть кілка слів про себе</label>
+        <textarea asp-for="Description"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Зберегти" />
+    </div>
+
+</form>
